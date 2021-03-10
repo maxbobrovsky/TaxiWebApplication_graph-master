@@ -21,7 +21,6 @@ namespace TaxiWebApplication.Services
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();
-
                 var myJObject = JObject.Parse(responseBody);
 
                 var arr = myJObject.SelectToken("paths").ToString();
