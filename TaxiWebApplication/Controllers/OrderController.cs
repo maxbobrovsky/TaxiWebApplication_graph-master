@@ -52,27 +52,10 @@ namespace TaxiWebApplication.Controllers
                 unknown[i] = double.Parse(mas[i]);
             }
 
-
-            //if (_adb.Orders.Any(ord => ord.UserId == order.UserId))
-            //{
-            //    ModelState.AddModelError("Address", "Too much orders by for current user");
-            //    return View(ordModel);
-            //}
-
-            //_adb.Orders.Add(order);
-            //await _adb.SaveChangesAsync();
-
-
-            //double[] destination = new double[] { 50.644, 29.91 };
-
-            //double dist = _knn.DistanceToDest(unknown, destination);
-
             ViewData["Distance"] = unknown[0];
             ViewData["Price"] = unknown[1];
 
             return RedirectToAction("DistanceAndPrice", "Order", new {distance = unknown[0], price = unknown[1]});
-
-           // return Json(new { redirectToUrl = Url.Action("DistanceAndPrice", "Order") });
 
 
         }
@@ -101,6 +84,12 @@ namespace TaxiWebApplication.Controllers
             
 
             return new JsonResult(mod);
+        }
+
+        [HttpGet]
+        public IActionResult FindDriver()
+        {
+            return View();
         }
 
     }

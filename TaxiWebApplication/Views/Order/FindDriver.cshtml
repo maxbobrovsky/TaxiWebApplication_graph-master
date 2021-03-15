@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>SignalR ORder</title>
+</head>
+<body>
+    <div class="col-6">
+        <input type="button" id="findDriver" value="Find driver" />
+    </div>
+    <h1>GOOD!!</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <ul id="driversList">pp</ul>
+        </div>
+    </div>
+    
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script>
+        "use strict";
+
+        const connection = new signalR.HubConnectionBuilder().withUrl("/orderHub").build();
+
+        connection.on("Receive", function (userName) {
+
+            var encodedMsg = userName + " is ";
+            var li = document.createElement("li");
+            li.textContent = encodedMsg;
+            document.getElementById("driversList").appendChild(li);
+        });
+
+        document.getElementById("findDriver").addEventListener("click", function (e) {
+
+
+            connection.invoke("Send");
+        });
+
+        connection.start();
+    </script>
+</body>
+</html>

@@ -28,6 +28,7 @@ namespace TaxiWebApplication
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -100,6 +101,9 @@ namespace TaxiWebApplication
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+               
+                endpoints.MapHub<OrderHub>("/orderHub");
+                
             });
         }
     }

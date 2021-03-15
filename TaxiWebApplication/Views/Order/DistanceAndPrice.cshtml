@@ -23,6 +23,12 @@
             bottom: 0;
             left: 0;
         }
+        .btn {
+            display: inline-block; /* Строчно-блочный элемент */
+            background: #8C959D; /* Серый цвет фона */
+            color: #fff;
+            border-radius: 3px;
+        }
     </style>
 </head>
 
@@ -31,11 +37,6 @@
     <div></div>
     <div id="map"></div>
     <p class="dist">hehe</p>
-    @*<form method="post" asp-controller="Order" asp-action="Distance">
-        <input type="hidden" id="user_address" name="UserAddress" asp-for="userAddress" />
-    </form>*@
-
-
 
 
     <script type="text/javascript">
@@ -57,23 +58,15 @@
 
             }).addTo(map);
 
-            //console.log("one before change:", one);
-            //console.log("two before change:", two);
-
             var oneone = one.replace(",", ".");
             var twotwo = two.replace(",", ".");
 
-            console.log("one before change:", oneone);
-            console.log("two before change:", twotwo);
-            
             var marker1;
             await map.on('click', onClick);
-            //var mark = L.marker([50.64086, 29.92616]).addTo(map).bindPopup('<b>Hello!</b><br />Borodianka...').openPopup();
+      
             var marker = L.marker([parseFloat(oneone), parseFloat(twotwo)]).addTo(map).bindPopup('<b>Hello!</b><br />You are here...').openPopup();
-            //var popup = marker.bindPopup('<b>Hello!</b><br />You are here...');
+  
             newMarkerGroup = new L.LayerGroup();
-            
-            //var marker1;
 
 
             async function onClick(e) {
@@ -123,6 +116,7 @@
 
 
     </script>
+    <a asp-action="FindDriver" asp-controller="Order">Authorize</a>>
 </body>
 </html>
 
