@@ -31,7 +31,27 @@ namespace TaxiWebApplication
 
             //var drivers = _context.Users.Where(x => x.UserName != "").ToString();
 
-            var drivers = _context.Users.Where(x => x.UserName != "");
+            //var drivers = _context.Users.Where(x => x.UserName != "");
+
+            var Helper_drivers = _context.Users.Join(_context.UserRoles,
+                                    u => u.Id,
+                                    r => r.UserId,
+                                    (u, r) => new
+                                    {
+                                        UserId = r.UserId,
+                                        NickName = u.UserName,
+                                        RoleId = r.RoleId
+                                    });
+
+            var drivers = Helper_drivers.Join(_context.Roles,
+                                              h => h.RoleId,
+                                              ro => ro.Id,
+                                              (h, ro) => new
+                                              {
+                                                  UserName = h.NickName,
+                                                  Role = ro.Name
+                                              }).Where(x => x.Role == "driver");
+                                               
 
             List<string> names = new List<string>();
 

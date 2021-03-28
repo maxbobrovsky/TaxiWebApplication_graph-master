@@ -21,6 +21,13 @@ namespace TaxiWebApplication.Controllers
             return View();
         }
 
+
+        [Authorize(Roles = "driver")]
+        public IActionResult DriverIndex()
+        {
+            return View();
+        }
+
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _rolle;
@@ -93,14 +100,14 @@ namespace TaxiWebApplication.Controllers
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
                 if (result.Succeeded)
                 {
-                    //if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    //{
-                    //    return Redirect(model.ReturnUrl);
-                    //}
-                    //else
-                    //{
-                        return RedirectToAction("Index", "Account");
-                    //}
+                    var user = await _userManager.FindByNameAsync(model.Email);
+
+                    if (await _userManager.IsInRoleAsync(user, "user") || await _userManager.IsInRoleAsync(user, "admin"))
+                    {
+                        return RedirectToAction("Index", "Account"); 
+                    }
+                    return RedirectToAction("DriverIndex", "Account");
+      
                 }
                 else
                 {
