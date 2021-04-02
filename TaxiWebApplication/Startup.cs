@@ -63,6 +63,8 @@ namespace TaxiWebApplication
 
             services.AddSingleton<KnnService>();
 
+            services.AddMemoryCache();
+
             services.AddControllersWithViews(options => { options.RespectBrowserAcceptHeader = true;
                                                           options.ReturnHttpNotAcceptable = true;})
                                                         .AddXmlDataContractSerializerFormatters();

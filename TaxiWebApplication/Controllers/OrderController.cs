@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using TaxiWebApplication.Models;
 using TaxiWebApplication.Services;
 using TaxiWebApplication.ViewModels;
@@ -19,16 +20,18 @@ namespace TaxiWebApplication.Controllers
         private readonly KnnService _knn;
         private readonly GraphRoadService _grs;
         private readonly UserManager<User> _userManager;
+        private readonly IMemoryCache _cache;
         //  private readonly UserManagerService _userService;
 
         public OrderController(ApplicationContext adb, IUserManagerService userService, UserManager<User> userManager,
-            KnnService knn, GraphRoadService grs)
+            KnnService knn, GraphRoadService grs, IMemoryCache cache)
         {
             _adb = adb;
             _userManager = userManager;
             _userService = userService;
             _knn = knn;
             _grs = grs;
+            _cache = cache;
         }
 
         [HttpGet]
@@ -86,9 +89,20 @@ namespace TaxiWebApplication.Controllers
             return new JsonResult(mod);
         }
 
+        [Authorize(Roles = "user,admin")]
         [HttpGet]
         public IActionResult FindDriver()
         {
+            return View();
+        }
+
+        [Authorize(Roles = "driver")]
+        [HttpGet]
+
+        public IActionResult GettingOnTheLine()
+        {
+            _cache.Set(User.Identity.Name, 0);
+
             return View();
         }
 
