@@ -101,7 +101,7 @@ namespace TaxiWebApplication.Controllers
 
         public IActionResult GettingOnTheLine()
         {
-            _cache.Set(User.Identity.Name, "hi");
+           // _cache.Set(User.Identity.Name, "hi");
 
             return View();
         }
@@ -112,7 +112,7 @@ namespace TaxiWebApplication.Controllers
 
         public async Task<JsonResult> GettingOnTheLine([FromBody] LatAndLogViewModel model)
         {
-
+            _cache.Set(User.Identity.Name, model);
 
             return new JsonResult(model);
         }

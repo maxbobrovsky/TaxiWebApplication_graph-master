@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TaxiWebApplication.Models;
+using TaxiWebApplication.ViewModels;
 
 namespace TaxiWebApplication
 {
@@ -56,13 +57,13 @@ namespace TaxiWebApplication
 
             List<string> names = new List<string>();
 
-            string? coord;
+            LatAndLogViewModel coord;
 
             foreach(var u in drivers)
             {
                 if (_cache.TryGetValue(u.UserName, out coord))
                 {
-                    names.Add((u.UserName + coord));
+                    names.Add((u.UserName + " " + coord.Lattitude + " " + coord.Longitude));
                 }
                 continue;
             }
