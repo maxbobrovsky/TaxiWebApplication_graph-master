@@ -101,9 +101,20 @@ namespace TaxiWebApplication.Controllers
 
         public IActionResult GettingOnTheLine()
         {
-            _cache.Set(User.Identity.Name, 0);
+            _cache.Set(User.Identity.Name, "hi");
 
             return View();
+        }
+
+
+        [Authorize(Roles = "driver")]
+        [HttpPost]
+
+        public async Task<JsonResult> GettingOnTheLine([FromBody] LatAndLogViewModel model)
+        {
+
+
+            return new JsonResult(model);
         }
 
     }

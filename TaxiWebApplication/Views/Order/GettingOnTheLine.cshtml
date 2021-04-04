@@ -1,3 +1,44 @@
-﻿<h1>GOO GOO DOLLS</h1>
+﻿
+
+<h1>GOO GOO DOLLS</h1>
 <h1>Your Lang</h1>
 <h1>Your lat</h1>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(loadGeo);
+
+        }
+
+        async function loadGeo(position) {
+        /*$('#address').val(position.coords.latitude + " " + position.coords.longitude);*/
+            console.log(position.coords.latitude);
+            console.log(position.coords.longitude);
+
+            let obj = {
+                Lattitude: position.coords.latitude,
+                Longitude: position.coords.longitude,
+            }
+
+            const url = "@Url.Action("GettingOnTheLine", "Order")";
+            //debugger;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                body: JSON.stringify(obj)
+            });
+
+            let gotObj = await response.json();
+
+            console.log(gotObj.lattitude);
+
+            
+        }
+
+
+    });
+</script>

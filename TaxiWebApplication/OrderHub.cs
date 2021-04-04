@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,16 +11,16 @@ namespace TaxiWebApplication
     
     public class OrderHub : Hub
     {
-        public OrderHub(ApplicationContext context)
+        public OrderHub(ApplicationContext context, IMemoryCache cache)
         {
             _context = context;
+            _cache = cache;
             //usersId = _context.Users.ToList();        
         }
 
         //List usersId = new List<string>();
         private ApplicationContext _context;
-
-      
+        private IMemoryCache _cache;
 
         [Authorize]
         public async Task Send()
@@ -55,9 +56,15 @@ namespace TaxiWebApplication
 
             List<string> names = new List<string>();
 
+            string? coord;
+
             foreach(var u in drivers)
             {
-                names.Add(u.UserName);
+                if (_cache.TryGetValue(u.UserName, out coord))
+                {
+                    names.Add((u.UserName + coord));
+                }
+                continue;
             }
 
 
