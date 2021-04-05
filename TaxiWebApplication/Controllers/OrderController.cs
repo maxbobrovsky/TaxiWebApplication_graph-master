@@ -90,10 +90,10 @@ namespace TaxiWebApplication.Controllers
         }
 
         [Authorize(Roles = "user,admin")]
-        [HttpGet]
-        public IActionResult FindDriver()
+        [HttpPost]
+        public IActionResult FindDriver(string model)
         {
-            return View();
+            return View(model);
         }
 
         [Authorize(Roles = "driver")]
